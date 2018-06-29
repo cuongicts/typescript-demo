@@ -27,7 +27,9 @@ const hbs = exphbs.create({
     }
   }
 });
-
+/**
+ * View engine using
+ */
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
