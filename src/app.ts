@@ -9,7 +9,7 @@ import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import * as appConfig from './common/app-config';
 
-import { check, validationResult} from 'express-validator/check';
+import { check, validationResult } from 'express-validator/check';
 import router from './route/api-route';
 
 /**
@@ -23,7 +23,7 @@ const hbs = exphbs.create({
   // Specify helpers which are only registered on this instance.
   helpers: {
     demoHelperHbs: (text: string) => {
-      return 'This is text '+text;
+      return 'This is text ' + text;
     }
   }
 });
