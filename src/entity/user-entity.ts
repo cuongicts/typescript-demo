@@ -25,4 +25,8 @@ export class UserEntity {
         length: 100
     })
     password: string;
+    @Column({
+        length: 50
+    })
+    username: string;
 }

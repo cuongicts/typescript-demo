@@ -54,13 +54,10 @@ app.listen(app.get('port'), () => {
   console.log('  Press CTRL-C to stop\n');
 });
 
-/**
- * Create connection to DB using configuration provided in
- * appconfig file
- */
-createConnection(appConfig.dbOptions).then(async connection => {
-  console.log('Connected to DB');
 
-}).catch(error => console.log('TypeORM connection error: ', error));
+// Connect to DB
+createConnection().then(async connection => {
+  console.log('Connected to DB');
+ }).catch(error => console.log('TypeORM connection error: ', error));
 
 module.exports = app;
