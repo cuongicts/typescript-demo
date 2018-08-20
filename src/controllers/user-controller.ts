@@ -16,9 +16,11 @@ export let register = async (req: Request, res: Response) => {
   console.log('POST Register');
 
   const uRepo: UserRepo = new UserRepo();
+  const userRepsitory = getRepository(UserEntity);
   const user = new UserEntity();
   user.firstName = req.body.firstName;
   user.lastName = req.body.lastName;
+  user.username = req.body.username;
   user.email = req.body.email;
   user.password = '123456';
 
@@ -33,7 +35,7 @@ export let register = async (req: Request, res: Response) => {
         }
       });
     }
-    bcrypt.hash(user.password, salt, undefined, (err, hash) => {
+    bcrypt.hash(user.password, salt, undefined, async (err, hash) => {
       if (err) {
         return res.status(400).json({
           code: 400,
@@ -45,20 +47,26 @@ export let register = async (req: Request, res: Response) => {
         });
       }
       user.password = hash;
-      uRepo.createUser(user).then((u) => {
-        return res.json({
-          code: 200,
-          status: 'success',
-          data: _.omit(u, 'password')
-        });
-      }).catch(error => res.status(400).json({
-        code: 400,
-        status: 'error',
-        data: {
-          message: 'Bad request',
-          error: error,
-        }
-      }));
+      await userRepsitory.save(user);
+      return res.json({
+        code: 200,
+        status: 'success',
+        data: _.omit(user, 'password')
+      });
+      // uRepo.createUser(user).then((u) => {
+      //   return res.json({
+      //     code: 200,
+      //     status: 'success',
+      //     data: _.omit(u, 'password')
+      //   });
+      // }).catch(error => res.status(400).json({
+      //   code: 400,
+      //   status: 'error',
+      //   data: {
+      //     message: 'Bad request',
+      //     error: error,
+      //   }
+      // }));
     });
   });
 };

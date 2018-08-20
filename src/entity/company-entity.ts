@@ -20,6 +20,6 @@ export class CompanyEntity {
     })
     description: string;
 
-    @ManyToOne(type => UserEntity, user => user.companies)
-    owner: UserEntity;
+    @OneToMany(type => UserEntity, user => user.company)
+    employees: UserEntity[];
 }

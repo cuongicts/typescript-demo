@@ -1,11 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, CreateDateColumn, BeforeUpdate, BeforeInsert } from 'typeorm';
 import { CompanyEntity } from './company-entity';
 @Entity()
 export class UserEntity {
     @PrimaryGeneratedColumn()
     userId: number;
-    @OneToMany(type => CompanyEntity, company => company.owner)
-    companies: CompanyEntity[];
+
+    @ManyToOne(type => CompanyEntity, company => company.employees)
+    company: CompanyEntity;
+
     @Column({
         length: 50
     })
@@ -26,7 +28,17 @@ export class UserEntity {
     })
     password: string;
     @Column({
-        length: 50
+        length: 50,
+        nullable: true
     })
     username: string;
+    @CreateDateColumn({
+
+    })
+    created_at: Date;
+
+    @BeforeInsert()
+    async checkName() {
+        console.log(this.username);
+    }
 }
