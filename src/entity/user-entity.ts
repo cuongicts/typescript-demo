@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, CreateDateColumn, BeforeUpdate, BeforeInsert } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, CreateDateColumn, BeforeUpdate, BeforeInsert, AfterUpdate } from 'typeorm';
 import { CompanyEntity } from './company-entity';
 @Entity()
 export class UserEntity {
@@ -37,8 +37,8 @@ export class UserEntity {
     })
     created_at: Date;
 
-    @BeforeInsert()
+    @AfterUpdate()
     async checkName() {
-        console.log(this.username);
+        console.log('afterUpdate: ', this.username);
     }
 }

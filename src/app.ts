@@ -3,14 +3,43 @@ import dotenv from 'dotenv';
 dotenv.config({ path: '.env' });
 
 import express, { NextFunction } from 'express';
+import * as cors from 'cors';
+import kue, { Job } from 'kue';
+const queue = kue.createQueue();
+import cluster from 'cluster';
+import os from 'os';
+const clusterWorkerSize = os.cpus().length;
 import exphbs from 'express-handlebars';
 import * as bodyParser from 'body-parser';
 import 'reflect-metadata';
-import { createConnection } from 'typeorm';
+import { createConnection, getRepository } from 'typeorm';
+
 import * as appConfig from './common/app-config';
 
 import { check, validationResult } from 'express-validator/check';
 import router from './route/api-route';
+import { UserEntity } from './entity/user-entity';
+
+
+// Connect to DB
+createConnection().then(async connection => {
+  if (cluster.isMaster) {
+    console.log('is master');
+    /**
+     * Start Express server.
+     */
+    app.listen(app.get('port'), () => {
+      console.log(('  App is running at http://localhost:%d in %s mode'), app.get('port'), app.get('env'));
+      console.log('  Press CTRL-C to stop\n');
+    });
+    for (let i = 0; i < clusterWorkerSize; i++) {
+      cluster.fork();
+    }
+  } else {
+    // console.log(`Worker ${process.pid} started`);
+  }
+  console.log('Connected to DB:', connection.name);
+ }).catch(error => console.log('TypeORM connection error: ', error));
 
 /**
  * Create Express server.
@@ -36,6 +65,7 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.use('/kue-ui', kue.app);
 /**
  * Primary app routes.
  */
@@ -49,15 +79,12 @@ app.set('port', process.env.PORT || 3333);
 /**
  * Start Express server.
  */
-app.listen(app.get('port'), () => {
-  console.log(('  App is running at http://localhost:%d in %s mode'), app.get('port'), app.get('env'));
-  console.log('  Press CTRL-C to stop\n');
-});
+// app.listen(app.get('port'), () => {
+//   console.log(('  App is running at http://localhost:%d in %s mode'), app.get('port'), app.get('env'));
+//   console.log('  Press CTRL-C to stop\n');
+// });
 
 
-// Connect to DB
-createConnection().then(async connection => {
-  console.log('Connected to DB');
- }).catch(error => console.log('TypeORM connection error: ', error));
+
 
 module.exports = app;

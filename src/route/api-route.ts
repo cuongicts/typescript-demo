@@ -1,5 +1,15 @@
 import express, { NextFunction } from 'express';
+import cors from 'cors';
 const router = express.Router();
+// options for cors midddleware
+// const options: cors.CorsOptions = {
+//   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token'],
+//   credentials: true,
+//   methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+//   preflightContinue: false
+// };
+
+router.use(cors());
 
 /**
  * Controllers (route handlers).
@@ -32,8 +42,9 @@ router.post('/api/login', [
   }
 }, userController.login);
 router.get('/GetAllUsers', userController.getAllUsers);
+router.post('/update-all-user', userController.updateAllUsers);
 router.post('/DeleteUser', userController.deleteUser);
-router.post('/TestAPI', userController.apiTest);
+router.post('/upload', userController.upload);
 
 // frontend api
 router.get('/index', frontendController.index);

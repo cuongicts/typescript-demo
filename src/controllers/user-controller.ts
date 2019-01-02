@@ -4,6 +4,8 @@ import { Request, Response } from 'express';
 import { UserRepo } from '../repository/user-repository';
 import { UserEntity } from '../entity/user-entity';
 import { getRepository } from 'typeorm';
+import axios from 'axios';
+import formidable from 'formidable';
 import bcrypt from 'bcrypt-nodejs';
 import * as _ from 'lodash';
 
@@ -11,6 +13,18 @@ import * as _ from 'lodash';
  * GET /
  * Home page.
  */
+
+export let muaVe = async (req: Request, res: Response) => {
+  const url = 'http://www.vebongdaonline.vn/checkValidBookTicket';
+  const body = {
+    matchId: '30',
+    price: '200000',
+    seat: '4',
+  };
+
+  const result = await axios.post(url, body);
+
+};
 
 export let register = async (req: Request, res: Response) => {
   console.log('POST Register');
@@ -87,6 +101,24 @@ export let getAllUsers = async (req: Request, res: Response) => {
   });
 };
 
+export let updateAllUsers = async (req: Request, res: Response) => {
+  const uRepo = getRepository(UserEntity);
+
+  console.log('Update AllUsers');
+
+  const users = await uRepo.find();
+  users.map(async user => {
+    user.firstName = 'Nguyen';
+    await uRepo.save(user);
+  });
+  return res.json({
+    code: 200,
+    status: 'success',
+    data: {
+    }
+  });
+};
+
 export let login = async (req: Request, res: Response) => {
   const uRepo = getRepository(UserEntity);
   console.log(req.body);
@@ -152,5 +184,15 @@ export let deleteUser = async (req: Request, res: Response) => {
 };
 
 
-export let apiTest = async (req: Request, res: Response) => {
+export let upload = async (req: Request, res: Response) => {
+  const form = new formidable.IncomingForm();
+  form.uploadDir = './';
+  form.parse(req, (err, fields, files) => {
+    err && console.log(err);
+    if (files) {
+      res.json({
+        result: files
+      });
+    }
+  });
 };
