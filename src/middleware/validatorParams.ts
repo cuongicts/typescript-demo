@@ -1,6 +1,6 @@
 import express from 'express';
-import { Response, Request, NextFunction} from 'express';
-import { check, validationResult, oneOf} from 'express-validator/check';
+import { Response, Request, NextFunction } from 'express';
+import { check, validationResult, oneOf } from 'express-validator/check';
 
 
 
@@ -21,7 +21,6 @@ export const validateLogin = (req: Request, res: Response, next: NextFunction) =
                 error: error,
             }
         });
-        
     }
 };
 

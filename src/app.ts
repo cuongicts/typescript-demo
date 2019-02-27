@@ -17,21 +17,11 @@ import router from './route/api-route';
  */
 const app = express();
 
-// view engine
-const hbs = exphbs.create({
-  defaultLayout: 'main',
-  // Specify helpers which are only registered on this instance.
-  helpers: {
-    demoHelperHbs: (text: string) => {
-      return 'This is text ' + text;
-    }
-  }
-});
 /**
  * View engine using
  */
-app.engine('handlebars', hbs.engine);
-app.set('view engine', 'handlebars');
+// app.engine('handlebars', hbs.engine);
+app.set('view engine', 'pug');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -58,8 +48,8 @@ app.listen(app.get('port'), () => {
  * Create connection to DB using configuration provided in
  * appconfig file
  */
-createConnection(appConfig.dbOptions).then(async connection => {
-  console.log('Connected to DB');
+createConnection().then(async connection => {
+  console.log('Connected to DB: ' + connection.name);
 
 }).catch(error => console.log('TypeORM connection error: ', error));
 

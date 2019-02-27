@@ -11,10 +11,10 @@ import { check, validationResult } from 'express-validator/check';
 
 // api router
 router.post('/register', userController.register);
-router.post('/api/login', [ 
+router.post('/api/login', [
   check('email').isEmail().withMessage('The params [email] is required'),
   check('password').exists().withMessage('The params [password] is required')
-], (req :any, res :any, next: NextFunction) => {
+], (req: any, res: any, next: NextFunction) => {
   const errors = validationResult(req);
   try {
     validationResult(req).throw();
@@ -28,14 +28,13 @@ router.post('/api/login', [
         error: errors.array(),
       }
     });
-  }  
+  }
 }, userController.login);
 router.get('/GetAllUsers', userController.getAllUsers);
 router.post('/DeleteUser', userController.deleteUser);
 router.post('/TestAPI', userController.apiTest);
 
 // frontend api
-router.get('/index', frontendController.index);
-router.all('/login', frontendController.login);
+router.get('/index', (req, res) => res.render('index', { title: 'Hey', message: 'Hello!'}));
 
 export default router;
