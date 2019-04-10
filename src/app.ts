@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config({ path: '.env' });
 
 import express, { NextFunction } from 'express';
+import path from 'path';
 import exphbs from 'express-handlebars';
 import * as bodyParser from 'body-parser';
 import 'reflect-metadata';
@@ -11,6 +12,7 @@ import * as appConfig from './common/app-config';
 
 import { check, validationResult } from 'express-validator/check';
 import router from './route/api-route';
+import chatAppRouter from './route/chat-app-route';
 
 /**
  * Create Express server.
@@ -26,10 +28,14 @@ app.set('view engine', 'pug');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+console.log(path.join(__dirname, '../src/public'));
+app.use(express.static(path.join(__dirname, '../src/public')));
+
 /**
  * Primary app routes.
  */
 app.use('/', router);
+app.use('/chat', chatAppRouter);
 
 /**
  * Express configuration.
