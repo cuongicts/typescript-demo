@@ -59,7 +59,7 @@ const hbs = exphbs.create({
 /**
  * View engine using
  */
-app.engine('handlebars', hbs.engine);
+app.engine('handlebars', hbs.engine as any);
 app.set('view engine', 'handlebars');
 
 app.use(bodyParser.json());
