@@ -120,20 +120,20 @@ export let updateAllUsers = async (req: Request, res: Response) => {
 };
 
 export let login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
   const uRepo = getRepository(UserEntity);
-  console.log(req.body);
 
-  const user = await uRepo.findOne({ email: req.body.email });
+  const user = await uRepo.findOne({ email });
   if (!user) {
     return res.status(401).json({
       code: 401,
       status: 'error',
       data: {
-      message: 'Invalid email or password',
+        message: 'Invalid email or password',
       }
     });
   } else {
-    bcrypt.compare(req.body.password, user.password, (error, isMatch) => {
+    bcrypt.compare(password, user.password, (error, isMatch) => {
       if (error) {
         return res.status(400).json({
           code: 400,
@@ -195,4 +195,9 @@ export let upload = async (req: Request, res: Response) => {
       });
     }
   });
+};
+
+export let uploadMulter = async (req: any, res: Response) => {
+  const file = req.file;
+  console.log(file.fileName);
 };
