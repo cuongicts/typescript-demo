@@ -1,12 +1,12 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, CreateDateColumn, BeforeUpdate, BeforeInsert, AfterUpdate } from 'typeorm';
-import { CompanyEntity } from './company-entity';
+import { Company } from './company-entity';
 @Entity()
-export class UserEntity {
+export class User {
     @PrimaryGeneratedColumn()
     userId: number;
 
-    @ManyToOne(type => CompanyEntity, company => company.employees)
-    company: CompanyEntity;
+    @ManyToOne(type => Company, company => company.employees)
+    company: Company;
 
     @Column({
         length: 50

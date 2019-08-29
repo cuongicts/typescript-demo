@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, BeforeUpdate } from 'typeorm';
-import { UserEntity } from './user-entity';
+import { User } from './user-entity';
 
 @Entity()
-export class CompanyEntity {
+export class Company {
     @PrimaryGeneratedColumn()
     companyId: number;
 
@@ -20,6 +20,6 @@ export class CompanyEntity {
     })
     description: string;
 
-    @OneToMany(type => UserEntity, user => user.company)
-    employees: UserEntity[];
+    @OneToMany(type => User, user => user.company)
+    employees: User[];
 }

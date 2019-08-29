@@ -103,7 +103,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
 import { CompanyEntity } from './company-entity';
 @Entity()
-export class UserEntity {
+export class User {
     @PrimaryGeneratedColumn()
     userId: number;
     @OneToMany(<span class="fstat-no" title="function not covered" >type</span> =&gt; <span class="cstat-no" title="statement not covered" >CompanyEntity,</span> <span class="fstat-no" title="function not covered" >company</span> =&gt; <span class="cstat-no" title="statement not covered" >company.owner)</span>

@@ -88,26 +88,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { UserEntity } from '../entity/user-entity';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { User } from '../entity/user-entity';
 import { getManager } from 'typeorm';
 &nbsp;
 &nbsp;
 export class UserRepo {
 <span class="fstat-no" title="function not covered" >    getAllUsers</span>() {
         // get User repository and find all users
-<span class="cstat-no" title="statement not covered" >        return getManager().getRepository(UserEntity).find();</span>
+<span class="cstat-no" title="statement not covered" >        return getManager().getRepository(User).find();</span>
     }
 &nbsp;
-    createUser(user: UserEntity) {
-        return getManager().getRepository(UserEntity).save(user);
+    createUser(user: User) {
+        return getManager().getRepository(User).save(user);
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    findOne</span>(user: UserEntity) {
-<span class="cstat-no" title="statement not covered" >        return getManager().getRepository(UserEntity).findOne(user);</span>
+<span class="fstat-no" title="function not covered" >    findOne</span>(user: User) {
+<span class="cstat-no" title="statement not covered" >        return getManager().getRepository(User).findOne(user);</span>
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    deleteUser</span>(id: number) {
-<span class="cstat-no" title="statement not covered" >        return getManager().getRepository(UserEntity).delete(id);</span>
+<span class="cstat-no" title="statement not covered" >        return getManager().getRepository(User).delete(id);</span>
     }
 }</pre></td></tr>
 </table></pre>

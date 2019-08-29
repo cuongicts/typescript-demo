@@ -346,7 +346,7 @@
 &nbsp;
 import { Request, Response } from 'express';
 import { UserRepo } from '../repository/user-repository';
-import { UserEntity } from '../entity/user-entity';
+import { User } from '../entity/user-entity';
 import { getRepository } from 'typeorm';
 import bcrypt from 'bcrypt-nodejs';
 import * as _ from 'lodash';
@@ -360,7 +360,7 @@ export let register = async (req: Request, res: Response) =&gt; {
   console.log('POST Register');
 &nbsp;
   const uRepo: UserRepo = new UserRepo();
-  const user = new UserEntity();
+  const user = new User();
   user.firstName = req.body.firstName;
   user.lastName = req.body.lastName;
   user.email = req.body.email;
@@ -408,7 +408,7 @@ export let register = async (req: Request, res: Response) =&gt; {
 };
 &nbsp;
 export let getAllUsers = <span class="fstat-no" title="function not covered" >async (r</span>eq: Request, res: Response) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-  const uRepo = <span class="cstat-no" title="statement not covered" >getRepository(UserEntity);</span>
+  const uRepo = <span class="cstat-no" title="statement not covered" >getRepository(User);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  console.log('GET GetAllUsers');</span>
 &nbsp;
@@ -424,7 +424,7 @@ export let getAllUsers = <span class="fstat-no" title="function not covered" >as
 };
 &nbsp;
 export let login = <span class="fstat-no" title="function not covered" >async (r</span>eq: Request, res: Response) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-  const uRepo = <span class="cstat-no" title="statement not covered" >getRepository(UserEntity);</span>
+  const uRepo = <span class="cstat-no" title="statement not covered" >getRepository(User);</span>
 <span class="cstat-no" title="statement not covered" >  console.log(req.body);</span>
 &nbsp;
   const user = <span class="cstat-no" title="statement not covered" >await uRepo.findOne({ email: req.body.email });</span>
