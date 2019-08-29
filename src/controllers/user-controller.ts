@@ -2,7 +2,7 @@
 
 import { Request, Response } from 'express';
 import { UserRepo } from '../repository/user-repository';
-import { User } from '../entity/user-entity';
+import { User } from '../entity/user';
 import { getRepository } from 'typeorm';
 import axios from 'axios';
 import formidable from 'formidable';

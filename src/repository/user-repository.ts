@@ -1,4 +1,4 @@
-import { User } from '../entity/user-entity';
+import { User } from '../entity/user';
 import { getManager } from 'typeorm';
 
 

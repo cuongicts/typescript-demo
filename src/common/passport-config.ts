@@ -1,5 +1,5 @@
 import passport from 'passport';
-import { User } from '../entity/user-entity';
+import { User } from '../entity/user';
 import { getRepository } from 'typeorm';
 
 // errHandler = utilities.errHandler,

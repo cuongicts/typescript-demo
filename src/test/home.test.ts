@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { TemplateExecutor } from '../../node_modules/@types/lodash';
 import { Connection, createConnection } from '../../node_modules/typeorm';
-import { User } from '../entity/user-entity';
+import { User } from '../entity/user';
 const app = require('./../app');
 
 describe('GET /', () => {

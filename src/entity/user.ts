@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, CreateDateColumn, BeforeUpdate, BeforeInsert, AfterUpdate } from 'typeorm';
-import { Company } from './company-entity';
+import { Company } from './company';
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
