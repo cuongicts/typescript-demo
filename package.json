@@ -29,6 +29,8 @@
     "express-handlebars": "^3.1.0",
     "express-validator": "^5.2.0",
     "formidable": "^1.2.1",
+    "ipfs-http-client": "^34.0.0",
+    "jimp": "^0.6.7",
     "kue": "^0.11.6",
     "lodash": "^4.17.11",
     "multer": "^1.4.2",
