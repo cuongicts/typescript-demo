@@ -13,6 +13,16 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Current TS file",
+            "args": ["${relativeFile}"],
+            "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+            "sourceMaps": true,
+            "cwd": "${workspaceRoot}",
+            "protocol": "inspector",
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}/dist/app.js",
             "preLaunchTask": "tsc: build - tsconfig.json",
