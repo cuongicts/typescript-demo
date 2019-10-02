@@ -6,7 +6,7 @@ import { UserEntity } from '../entity/user-entity';
 import { getRepository } from 'typeorm';
 import axios from 'axios';
 import formidable from 'formidable';
-import bcrypt from 'bcrypt-nodejs';
+import bcrypt from 'bcrypt';
 import * as _ from 'lodash';
 
 /**
@@ -49,7 +49,7 @@ export let register = async (req: Request, res: Response) => {
         }
       });
     }
-    bcrypt.hash(user.password, salt, undefined, async (err, hash) => {
+    bcrypt.hash(user.password, salt, async (err, hash) => {
       if (err) {
         return res.status(400).json({
           code: 400,

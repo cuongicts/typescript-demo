@@ -9,7 +9,7 @@ export let dbOptions: ConnectionOptions = {
     password: 'secret',
     database: 'tscdemo',
     entities: [
-         'dist/entity/**/*.js'
+        'dist/entity/**/*.js'
     ],
     synchronize: true,
 };

@@ -3,7 +3,7 @@ import { UserEntity } from '../entity/user-entity';
 import { getRepository } from 'typeorm';
 
 // errHandler = utilities.errHandler,
-import bcrypt from 'bcrypt-nodejs';
+import bcrypt from 'bcrypt';
 
 import { Strategy as LocalStrategy } from 'passport-local';
 
@@ -66,7 +66,7 @@ passport.use('frontend', new LocalStrategy({
         if (err) {
           return done(err);
         }
-        bcrypt.hash(user.password, salt, undefined, (err, hash) => {
+        bcrypt.hash(user.password, salt, (err, hash) => {
           if (err) {
             return done(err);
           }
