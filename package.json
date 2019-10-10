@@ -12,7 +12,7 @@
     "watch-node": "nodemon dist/app.js",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
-    "test": "jest --forceExit --coverage --verbose",
+    "test": "jest --forceExit --verbose",
     "tslint": "tslint -c tslint.json -p tsconfig.json"
   },
   "dependencies": {
