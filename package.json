@@ -13,6 +13,7 @@
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "test": "jest --forceExit --verbose",
+    "test-sequence": "jest --runInBand",
     "tslint": "tslint -c tslint.json -p tsconfig.json"
   },
   "dependencies": {

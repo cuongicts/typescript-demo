@@ -12,5 +12,6 @@ module.exports = {
 		'^.+\\.(ts|tsx)$': 'ts-jest'
 	},
 	testRegex: '(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$',
+	testSequencer: './jest-custom-sequencer.js',
 	testEnvironment: 'node'
 };
