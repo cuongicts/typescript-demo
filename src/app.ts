@@ -4,47 +4,55 @@ dotenv.config({ path: '.env' });
 
 import express, { NextFunction } from 'express';
 import * as cors from 'cors';
+import * as http from 'http';
+import mongoose from 'mongoose';
 import kue, { Job } from 'kue';
 const queue = kue.createQueue();
-import cluster from 'cluster';
 import os from 'os';
-const clusterWorkerSize = os.cpus().length;
 import exphbs from 'express-handlebars';
 import * as bodyParser from 'body-parser';
 import 'reflect-metadata';
-import { createConnection, getRepository } from 'typeorm';
+import { createConnection, getRepository, Connection } from 'typeorm';
 
 import * as appConfig from './common/app-config';
 
 import { check, validationResult } from 'express-validator/check';
 import router from './route/api-route';
+import btcRouter from './route/bitcoin-route';
 import { UserEntity } from './entity/user-entity';
 
 
-// Connect to DB
-createConnection().then(async connection => {
-  if (cluster.isMaster) {
-    console.log('is master');
-    /**
-     * Start Express server.
-     */
-    app.listen(app.get('port'), () => {
-      console.log(('  App is running at http://localhost:%d in %s mode'), app.get('port'), app.get('env'));
-      console.log('  Press CTRL-C to stop\n');
-    });
-    for (let i = 0; i < clusterWorkerSize; i++) {
-      cluster.fork();
+const mongoURI = process.env.MONGO_URI || `mongodb://localhost:27017/detectivedb`;
+/**
+ * Connect to DB
+ */
+
+mongoose.connect(mongoURI, { useCreateIndex: true, useNewUrlParser: true })
+  .then(() => {
+    console.log(`Success to connect database: ${mongoURI}`);
+  })
+  .catch(err => {
+    if (err) {
+      console.log(`Connect to DB err: ${err}`);
     }
-  } else {
-    // console.log(`Worker ${process.pid} started`);
-  }
+  });
+
+// Connect to DB
+let dbConnection: Connection;
+createConnection().then(async connection => {
+  dbConnection = connection;
   console.log('Connected to DB:', connection.name);
- }).catch(error => console.log('TypeORM connection error: ', error));
+}).catch(error => console.log('TypeORM connection error: ', error));
 
 /**
  * Create Express server.
  */
 const app = express();
+
+/**
+ * Create http server from express server
+ */
+const server = http.createServer(app);
 
 // view engine
 const hbs = exphbs.create({
@@ -59,17 +67,18 @@ const hbs = exphbs.create({
 /**
  * View engine using
  */
-app.engine('handlebars', hbs.engine);
+app.engine('handlebars', hbs.engine as any);
 app.set('view engine', 'handlebars');
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/kue-ui', kue.app);
 /**
  * Primary app routes.
  */
 app.use('/', router);
+app.use('/bitcoin', btcRouter);
 
 /**
  * Express configuration.
@@ -79,12 +88,34 @@ app.set('port', process.env.PORT || 3333);
 /**
  * Start Express server.
  */
-// app.listen(app.get('port'), () => {
-//   console.log(('  App is running at http://localhost:%d in %s mode'), app.get('port'), app.get('env'));
-//   console.log('  Press CTRL-C to stop\n');
-// });
+server.listen(app.get('port'), () => {
+  console.log(('  App is running at http://localhost:%d in %s mode'), app.get('port'), app.get('env'));
+  console.log('  Press CTRL-C to stop\n');
+});
 
+process.on('SIGINT', () => {
+  const cleanUp = async () => {
+    // Clean up other resources like DB connections
+    console.log('cleanup..');
+    await dbConnection.close();
+    console.log('closed db connection');
+  };
 
+  console.log('Closing server...');
 
+  server.close(async () => {
+    await cleanUp();
+    console.log('Server closed !!!');
+    process.exit();
+  });
+
+  // Force close server after 5secs
+  setTimeout((e) => {
+    console.log('Forcing server close !!!', e);
+
+    cleanUp();
+    process.exit(1);
+  }, 5000);
+});
 
 module.exports = app;

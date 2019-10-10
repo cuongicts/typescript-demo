@@ -90,15 +90,17 @@ export let getAllUsers = async (req: Request, res: Response) => {
 
   console.log('GET GetAllUsers');
 
-  uRepo.find().then((result: any) => {
+  const users = await uRepo.find();
+
+  setTimeout(() => {
     return res.json({
       code: 200,
       status: 'success',
       data: {
-        result
+        users
       }
     });
-  });
+  }, 5000);
 };
 
 export let updateAllUsers = async (req: Request, res: Response) => {
