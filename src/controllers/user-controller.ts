@@ -2,12 +2,13 @@
 
 import { Request, Response } from 'express';
 import { UserRepo } from '../repository/user-repository';
-import { UserEntity } from '../entity/user-entity';
+import { User } from '../entity/user';
 import { getRepository } from 'typeorm';
 import axios from 'axios';
 import formidable from 'formidable';
 import bcrypt from 'bcrypt';
 import * as _ from 'lodash';
+import * as Sentry from '@sentry/node';
 
 /**
  * GET /
@@ -30,8 +31,8 @@ export let register = async (req: Request, res: Response) => {
   console.log('POST Register');
 
   const uRepo: UserRepo = new UserRepo();
-  const userRepsitory = getRepository(UserEntity);
-  const user = new UserEntity();
+  const userRepsitory = getRepository(User);
+  const user = new User();
   user.firstName = req.body.firstName;
   user.lastName = req.body.lastName;
   user.username = req.body.username;
@@ -86,7 +87,7 @@ export let register = async (req: Request, res: Response) => {
 };
 
 export let getAllUsers = async (req: Request, res: Response) => {
-  const uRepo = getRepository(UserEntity);
+  const uRepo = getRepository(User);
 
   console.log('GET GetAllUsers');
 
@@ -102,7 +103,7 @@ export let getAllUsers = async (req: Request, res: Response) => {
 };
 
 export let updateAllUsers = async (req: Request, res: Response) => {
-  const uRepo = getRepository(UserEntity);
+  const uRepo = getRepository(User);
 
   console.log('Update AllUsers');
 
@@ -121,7 +122,7 @@ export let updateAllUsers = async (req: Request, res: Response) => {
 
 export let login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  const uRepo = getRepository(UserEntity);
+  const uRepo = getRepository(User);
 
   const user = await uRepo.findOne({ email });
   if (!user) {

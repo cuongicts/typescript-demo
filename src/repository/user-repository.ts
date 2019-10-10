@@ -1,22 +1,22 @@
-import { UserEntity } from '../entity/user-entity';
+import { User } from '../entity/user';
 import { getManager } from 'typeorm';
 
 
 export class UserRepo {
-    getAllUsers() {
-        // get User repository and find all users
-        return getManager().getRepository(UserEntity).find();
-    }
+  getAllUsers() {
+    // get User repository and find all users
+    return getManager().getRepository(User).find();
+  }
 
-    createUser(user: UserEntity) {
-        return getManager().getRepository(UserEntity).save(user);
-    }
+  createUser(user: User) {
+    return getManager().getRepository(User).save(user);
+  }
 
-    findOne(user: UserEntity) {
-        return getManager().getRepository(UserEntity).findOne(user);
-    }
+  findOne(user: User) {
+    return getManager().getRepository(User).findOne(user);
+  }
 
-    deleteUser(id: number) {
-        return getManager().getRepository(UserEntity).delete(id);
-    }
+  deleteUser(id: number) {
+    return getManager().getRepository(User).delete(id);
+  }
 }

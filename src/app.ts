@@ -13,13 +13,14 @@ import exphbs from 'express-handlebars';
 import * as bodyParser from 'body-parser';
 import 'reflect-metadata';
 import { createConnection, getRepository } from 'typeorm';
+import * as Sentry from '@sentry/node';
 
 import * as appConfig from './common/app-config';
 
 import { check, validationResult } from 'express-validator/check';
 import router from './route/api-route';
-import { UserEntity } from './entity/user-entity';
 
+Sentry.init({ dsn: 'https://29f4048d45ec4d7eb6da4c7f231195e9@sentry.io/1543859' });
 
 // Connect to DB
 createConnection().then(async connection => {
@@ -39,7 +40,7 @@ createConnection().then(async connection => {
     // console.log(`Worker ${process.pid} started`);
   }
   console.log('Connected to DB:', connection.name);
- }).catch(error => console.log('TypeORM connection error: ', error));
+}).catch(error => console.log('TypeORM connection error: ', error));
 
 /**
  * Create Express server.
@@ -59,11 +60,14 @@ const hbs = exphbs.create({
 /**
  * View engine using
  */
-app.engine('handlebars', hbs.engine);
+app.engine('handlebars', hbs.engine as any);
 app.set('view engine', 'handlebars');
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.errorHandler());
 
 app.use('/kue-ui', kue.app);
 /**
