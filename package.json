@@ -16,6 +16,7 @@
     "tslint": "tslint -c tslint.json -p tsconfig.json"
   },
   "dependencies": {
+    "@sentry/node": "^5.6.2",
     "@types/formidable": "^1.0.31",
     "@types/kue": "^0.11.9",
     "bcrypt": "^3.0.6",
@@ -29,10 +30,12 @@
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "eth-pub": "git+ssh://git@github.com/yoshikazzz/ethpub.git",
-    "express": "^4.16.3",
-    "express-handlebars": "^3.0.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
     "express-validator": "^5.2.0",
     "formidable": "^1.2.1",
+    "ipfs-http-client": "^34.0.0",
+    "jimp": "^0.6.7",
     "kue": "^0.11.6",
     "lodash": "^4.17.11",
     "mongoose": "^5.7.3",
@@ -54,9 +57,8 @@
     "@types/body-parser": "^1.17.0",
     "@types/cors": "^2.8.4",
     "@types/dotenv": "^4.0.2",
-    "@types/express": "^4.16.0",
-    "@types/express-handlebars": "0.0.30",
-    "@types/express-validator": "^3.0.0",
+    "@types/express": "^4.17.1",
+    "@types/express-handlebars": "^0.0.33",
     "@types/jest": "^23.1.4",
     "@types/lodash": "^4.14.106",
     "@types/mongoose": "^5.5.19",
@@ -65,10 +67,10 @@
     "@types/passport-facebook": "^2.1.9",
     "@types/passport-local": "^1.0.33",
     "@types/supertest": "^2.0.4",
-    "jest": "^23.3.0",
+    "jest": "^24.9.0",
     "nodemon": "^1.17.5",
     "supertest": "^3.1.0",
-    "ts-jest": "^23.0.0",
+    "ts-jest": "^24.0.2",
     "tslint": "^5.20.0"
   }
 }

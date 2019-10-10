@@ -12,15 +12,16 @@ import os from 'os';
 import exphbs from 'express-handlebars';
 import * as bodyParser from 'body-parser';
 import 'reflect-metadata';
-import { createConnection, getRepository, Connection } from 'typeorm';
+import { createConnection, Connection } from 'typeorm';
+import * as Sentry from '@sentry/node';
 
 import * as appConfig from './common/app-config';
 
 import { check, validationResult } from 'express-validator/check';
 import router from './route/api-route';
 import btcRouter from './route/bitcoin-route';
-import { UserEntity } from './entity/user-entity';
 
+Sentry.init({ dsn: 'https://29f4048d45ec4d7eb6da4c7f231195e9@sentry.io/1543859' });
 
 const mongoURI = process.env.MONGO_URI || `mongodb://localhost:27017/detectivedb`;
 /**
@@ -72,6 +73,9 @@ app.set('view engine', 'handlebars');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.errorHandler());
 
 app.use('/kue-ui', kue.app);
 /**

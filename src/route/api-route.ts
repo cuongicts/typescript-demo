@@ -1,5 +1,6 @@
 import express, { NextFunction } from 'express';
 import cors from 'cors';
+import * as Sentry from '@sentry/node';
 const router = express.Router();
 // options for cors midddleware
 // const options: cors.CorsOptions = {
@@ -18,7 +19,6 @@ import * as userController from '../controllers/user-controller';
 import * as frontendController from '../controllers/frontend-controller';
 import { check, validationResult } from 'express-validator/check';
 
-
 // api router
 router.get('/', (req, res) => res.send('Hello World!'));
 router.post('/register', userController.register);
@@ -31,6 +31,7 @@ router.post('/api/login', [
     validationResult(req).throw();
     next();
   } catch (error) {
+    Sentry.captureException(error);
     return res.status(400).json({
       code: 400,
       status: 'error',

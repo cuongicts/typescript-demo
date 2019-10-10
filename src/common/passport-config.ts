@@ -1,5 +1,5 @@
 import passport from 'passport';
-import { UserEntity } from '../entity/user-entity';
+import { User } from '../entity/user';
 import { getRepository } from 'typeorm';
 
 // errHandler = utilities.errHandler,
@@ -7,12 +7,12 @@ import bcrypt from 'bcrypt';
 
 import { Strategy as LocalStrategy } from 'passport-local';
 
-passport.serializeUser(function (user: UserEntity, done) {
+passport.serializeUser(function (user: User, done) {
   done(undefined, user.userId);
 });
 
 passport.deserializeUser((id, done) => {
-  const userRepository = getRepository(UserEntity);
+  const userRepository = getRepository(User);
   userRepository.findOne(id).then((user) => {
     return done(undefined, user);
   }).catch((error) => {
@@ -26,7 +26,7 @@ passport.use('admin', new LocalStrategy({
   passReqToCallback: true
 },
   async (req, email, password, done) => {
-    const userRepository = getRepository(UserEntity);
+    const userRepository = getRepository(User);
     const user = await userRepository.findOne({ email: req.body.email});
     if (!user) {
       return done(undefined, false, {
@@ -55,10 +55,10 @@ passport.use('frontend', new LocalStrategy({
   passReqToCallback: true
 },
   async (req, email, password, done) => {
-    const userRepository = getRepository(UserEntity);
+    const userRepository = getRepository(User);
     let user = await userRepository.findOne({ email: req.body.email });
     if (!user) {
-      user = new UserEntity();
+      user = new User();
       user.email = req.body.email;
       user.password = req.body.password;
 
