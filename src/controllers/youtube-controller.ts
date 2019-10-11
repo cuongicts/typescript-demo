@@ -8,8 +8,8 @@ const bytesToSize = (bytes: number) => {
   return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i];
 };
 
-const url = 'https://www.youtube.com/watch?v=cgp_bO64c4Q',
-      formats = [];
+const url = 'https://www.youtube.com/watch?v=cgp_bO64c4Q';
+const formats = [];
 // ytdl().pipe(fs.createWriteStream('a.flv'));
 
 ytdl.getInfo(url, (err, info) => {

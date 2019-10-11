@@ -1,14 +1,14 @@
 let redisConfig;
 if (process.env.NODE_ENV === 'production') {
-    redisConfig = {
-        redis: {
-        port: process.env.REDIS_PORT,
-        host: process.env.REDIS_HOST,
-        auth: process.env.REDIS_PASS
-        }
-    };
+  redisConfig = {
+    redis: {
+      port: process.env.REDIS_PORT,
+      host: process.env.REDIS_HOST,
+      auth: process.env.REDIS_PASS
+    }
+  };
 } else {
-    redisConfig = {};
+  redisConfig = {};
 }
 
 const queue = require('kue').createQueue(redisConfig);
@@ -28,24 +28,24 @@ queue.on('error', (err) => {
 });
 
 function createTest(data, done) {
-    queue.create('test', data)
+  queue.create('test', data)
     .priority('critical')
     .attempts(8)
     .backoff(true)
     .removeOnComplete(false)
     .save((err) => {
-    if (err) {
+      if (err) {
         console.error(err);
         done(err);
-    }
-    if (!err) {
+      }
+      if (!err) {
         done();
-    }
+      }
     });
 }
 
 module.exports = {
-    create: (data, done) => {
-      createTest(data, done);
-    }
+  create: (data, done) => {
+    createTest(data, done);
+  }
 };

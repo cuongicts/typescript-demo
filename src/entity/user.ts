@@ -2,43 +2,43 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, CreateDat
 import { Company } from './company';
 @Entity()
 export class User {
-    @PrimaryGeneratedColumn()
-    userId: number;
+  @PrimaryGeneratedColumn()
+  userId: number;
 
-    @ManyToOne(type => Company, company => company.employees)
-    company: Company;
+  @ManyToOne(type => Company, company => company.employees)
+  company: Company;
 
-    @Column({
-        length: 50
-    })
-    firstName: string;
+  @Column({
+    length: 50
+  })
+  firstName: string;
 
-    @Column({
-        length: 50
-    })
-    lastName: string;
+  @Column({
+    length: 50
+  })
+  lastName: string;
 
-    @Column({
-        length: 50
-    })
-    email: string;
+  @Column({
+    length: 50
+  })
+  email: string;
 
-    @Column({
-        length: 100
-    })
-    password: string;
-    @Column({
-        length: 50,
-        nullable: true
-    })
-    username: string;
-    @CreateDateColumn({
+  @Column({
+    length: 100
+  })
+  password: string;
+  @Column({
+    length: 50,
+    nullable: true
+  })
+  username: string;
+  @CreateDateColumn({
 
-    })
-    created_at: Date;
+  })
+  created_at: Date;
 
-    @AfterUpdate()
-    async checkName() {
-        console.log('afterUpdate: ', this.username);
-    }
+  @AfterUpdate()
+  async checkName() {
+    console.log('afterUpdate: ', this.username);
+  }
 }

@@ -3,23 +3,23 @@ import { User } from './user';
 
 @Entity()
 export class Company {
-    @PrimaryGeneratedColumn()
-    companyId: number;
+  @PrimaryGeneratedColumn()
+  companyId: number;
 
-    @Column({
-        length: 50
-    })
-    email: string;
-    @Column({
-        length: 100
-    })
-    name: string;
+  @Column({
+    length: 50
+  })
+  email: string;
+  @Column({
+    length: 100
+  })
+  name: string;
 
-    @Column({
-        length: 1024
-    })
-    description: string;
+  @Column({
+    length: 1024
+  })
+  description: string;
 
-    @OneToMany(type => User, user => user.company)
-    employees: User[];
+  @OneToMany(type => User, user => user.company)
+  employees: User[];
 }
