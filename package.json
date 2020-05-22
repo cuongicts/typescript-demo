@@ -29,7 +29,6 @@
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
-    "eth-pub": "git+ssh://git@github.com/yoshikazzz/ethpub.git",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
     "express-validator": "^5.2.0",
